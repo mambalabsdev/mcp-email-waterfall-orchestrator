@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "mamba-email-waterfall-orchestrator": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mambalabsdev/mcp-email-waterfall-orchestrator"
+      ],
+      "env": {
+        "APIFY_TOKEN": "your-apify-token"
+      }
+    }
+  }
+}
