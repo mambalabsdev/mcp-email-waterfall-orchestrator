@@ -135,9 +135,14 @@ server.registerTool(
       openWorldHint: true,
     },
     inputSchema: {
+      // Optional, because the actor's own input schema marks nothing required
+      // and defaults contacts to []. Requiring it here made the actor's own
+      // prefill input invalid at the tool boundary: the wrapper could not be
+      // smoke-called at all in the M1 audit for exactly this reason.
       contacts: z
         .array(contactShape)
-        .describe("One object per person. Each may carry full_name, first_name, last_name, company_domain, company_name, linkedin_url and email. A single contact is an array of one."),
+        .optional()
+        .describe("One object per person. Each may carry full_name, first_name, last_name, company_domain, company_name, linkedin_url and email. A single contact is an array of one. Omit it or pass an empty array and the run returns a summary row explaining that nothing was attempted and nothing was charged."),
       providerKeys: z
         .record(z.string())
         .optional()
@@ -176,12 +181,11 @@ server.registerTool(
     },
   },
   async ({ contacts, providerKeys, providerOrder, verificationOrder, maxContacts, maxProviderUnits, providerRates, concurrencyHint }) => {
-    if (!Array.isArray(contacts) || contacts.length === 0) {
-      return {
-        isError: true,
-        content: [{ type: "text", text: "Provide contacts: an array of one or more contact objects." }],
-      };
-    }
+    // No local rejection of an empty or absent contacts list. Measured
+    // 2026-08-13 against the live actor with its own prefill input: it returns
+    // a summary row naming what was unavailable and states that nothing was
+    // called and nothing was charged. That answer is more useful than the
+    // wrapper refusing to make the call, and it is the actor's answer to give.
     return runActor(
       "OT6xqTFThC0Rjf7Zj",
       "Work Email Waterfall",
