@@ -1,7 +1,7 @@
 {
   "manifest_version": "0.3",
   "name": "mcp-email-waterfall-orchestrator",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "MCP server for the Mamba Labs Work Email Waterfall actor on Apify. Give it contacts and your own provider API keys and it finds a work email for each, verifies it, and returns real per-provider spend attribution as flat Clay-ready JSON.",
   "author": {
     "name": "Mamba Labs"
