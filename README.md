@@ -59,7 +59,7 @@ More identifiers means a better chance of a hit. Keyed on a LinkedIn URL the top
 }
 ```
 
-Get a token at [console.apify.com/account/integrations](https://console.apify.com/account/integrations). Read-only. Consumes Apify credits per contact submitted and per address found, on top of whatever your own provider keys spend.
+Get a token at [console.apify.com/account/integrations](https://console.apify.com/account/integrations). Each call spends from your own provider accounts and consumes Apify credits per contact submitted and per address found, on top of whatever your own provider keys spend.
 
 ## Also available
 

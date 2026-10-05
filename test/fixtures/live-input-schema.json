@@ -1,0 +1,86 @@
+{
+  "_provenance": {
+    "actorId": "OT6xqTFThC0Rjf7Zj",
+    "buildId": "kHY11ADQZXfE8enKP",
+    "buildNumber": "0.0.11",
+    "readAt": "2026-10-05T15:41:12.127Z"
+  },
+  "title": "Email Waterfall and Verification Orchestrator",
+  "description": "Finds a work email for each contact by calling a chain of finder providers on YOUR OWN API keys, verifies the result, and returns real per-provider spend attribution. Bring your own keys: Mamba Labs supplies none and never sees your credits.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "contacts": {
+      "title": "Contacts",
+      "type": "array",
+      "description": "One object per person. Each may carry full_name, first_name, last_name, company_domain, company_name, linkedin_url and email. More identifiers means a better chance: keyed on a LinkedIn URL the top provider measured 13.7 percent against 9.3 percent on name plus domain, on the same 300 contacts in the same hour. A single contact is an array of one. Also accepted as a JSON string, because Clay sends every input as a string.",
+      "editor": "json",
+      "prefill": [],
+      "default": []
+    },
+    "providerKeys": {
+      "title": "Your provider API keys",
+      "type": "object",
+      "description": "Your own keys, by provider name: findymail, prospeo, icypeas, reoon, bounceban. Every key is validated for free before any paid call, and a provider with no usable key is dropped from the chain and reported rather than failing the run. With no keys at all the actor completes, explains what was unavailable and charges nothing.",
+      "editor": "json",
+      "isSecret": true
+    },
+    "providerOrder": {
+      "title": "Provider order",
+      "type": "array",
+      "description": "Registry entry ids in the order you want them called. Leave empty for the default: findymail.search_business_profile#linkedin_url, findymail.search_name#name_domain, prospeo.enrich_person#any. Icypeas is registered but off by default: it returned zero marginal hits in 300 independent contacts and its result-read endpoint is 30 per minute, which puts a 33-minute floor under a 1,000-row batch. Add icypeas.email_search#name_domain here if you want it.",
+      "editor": "stringList",
+      "prefill": [],
+      "default": []
+    },
+    "verificationOrder": {
+      "title": "Verification order",
+      "type": "array",
+      "description": "Verifier entry ids in order. Default is reoon.verify_email#email then bounceban.verify_email#email. Verification runs after EACH finder that returns an address, not once at the end, because providers do not agree on what found means.",
+      "editor": "stringList",
+      "prefill": [],
+      "default": []
+    },
+    "maxContacts": {
+      "title": "Maximum contacts",
+      "type": "integer",
+      "description": "Hard ceiling on how many contacts are processed. Leave empty for no ceiling.",
+      "editor": "number",
+      "minimum": 1,
+      "prefill": 1000
+    },
+    "maxProviderUnits": {
+      "title": "Maximum provider units (spend cap)",
+      "type": "integer",
+      "description": "Run-level cap on the provider credits this run may consume from YOUR accounts. When it is reached the remaining contacts are skipped with a reason rather than spent on. Strongly recommended: this actor spends your money, not ours.",
+      "editor": "number",
+      "minimum": 1,
+      "prefill": 500
+    },
+    "providerRates": {
+      "title": "Your per-unit provider rates (optional)",
+      "type": "object",
+      "description": "Optional map of provider or provider.endpoint to YOUR cost per unit, for example {\"findymail.search_name\": 0.0198}. Supply it and the run reports dollars at YOUR rate. Leave it empty and the run reports units only, because with your own keys we do not know your plan tier or negotiated rate and will not assume one.",
+      "editor": "json",
+      "prefill": {},
+      "default": {}
+    },
+    "concurrencyHint": {
+      "title": "Concurrency hint",
+      "type": "integer",
+      "description": "Advisory. Real pacing comes from each endpoint's own documented rate limits, which are multi-window and per endpoint, so this cannot exceed them.",
+      "editor": "number",
+      "minimum": 1,
+      "maximum": 20,
+      "prefill": 4,
+      "default": 4
+    },
+    "source_tag": {
+      "title": "Source Tag",
+      "type": "string",
+      "description": "Internal attribution tag set by Mamba Labs on published task examples. Not required, and nothing depends on it. Leave it empty.",
+      "editor": "hidden"
+    }
+  },
+  "required": []
+}
