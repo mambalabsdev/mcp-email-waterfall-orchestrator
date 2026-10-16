@@ -237,6 +237,7 @@ server.registerTool(
       openWorldHint: true,
     },
     inputSchema: {
+      max_charge_usd: z.number().min(0).optional().describe("Optional. The run stops before any charge that would take this run past this amount, and saves every row already paid for. Leave empty to rely only on the maximum cost per run set in Apify, which the run also honors."),
       // Optional, because the actor's own input schema marks nothing required
       // and defaults contacts to []. Requiring it here made the actor's own
       // prefill input invalid at the tool boundary: the wrapper could not be
@@ -282,7 +283,7 @@ server.registerTool(
         .describe("Advisory only. Real pacing comes from each endpoint's own documented rate limits, which are multi-window and per endpoint, so this cannot exceed them."),
     },
   },
-  async ({ contacts, providerKeys, providerOrder, verificationOrder, maxContacts, maxProviderUnits, providerRates, concurrencyHint }) => {
+  async ({ contacts, providerKeys, providerOrder, verificationOrder, maxContacts, maxProviderUnits, providerRates, concurrencyHint, max_charge_usd }) => {
     // No local rejection of an empty or absent contacts list. Measured
     // 2026-08-13 against the live actor with its own prefill input: it returns
     // a summary row naming what was unavailable and states that nothing was
@@ -292,6 +293,7 @@ server.registerTool(
       "OT6xqTFThC0Rjf7Zj",
       "Work Email Waterfall",
       compact({
+        max_charge_usd,
         contacts,
         providerKeys,
         providerOrder,
