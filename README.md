@@ -42,6 +42,7 @@ Verification runs after **each** finder that returns an address, not once at the
 | `maxProviderUnits` | integer | Run-level cap on provider credits spent from your accounts. Strongly recommended. |
 | `providerRates` | object | Map of provider or provider.endpoint to your cost per unit, so spend is reported in dollars. |
 | `concurrencyHint` | integer | Advisory. Real pacing comes from each endpoint's own multi-window rate limits. |
+| `max_charge_usd` | number | Optional cost cap in USD for this run. The actor stops before an item that could take its charges past this amount. |
 
 More identifiers means a better chance of a hit. Keyed on a LinkedIn URL the top provider measured 13.7 percent against 9.3 percent on name plus domain, on the same 300 contacts in the same hour.
 
@@ -60,6 +61,16 @@ More identifiers means a better chance of a hit. Keyed on a LinkedIn URL the top
 ```
 
 Get a token at [console.apify.com/account/integrations](https://console.apify.com/account/integrations). Each call spends from your own provider accounts and consumes Apify credits per contact submitted and per address found, on top of whatever your own provider keys spend.
+
+## Pricing
+
+Price per event on the Apify FREE plan, from the live pricing record; paid Apify plans pay less per event.
+
+| Event | Price (USD) |
+| --- | --- |
+| Actor Start (`apify-actor-start`) | 0.00005 |
+| Email Search Submitted (`email-search-submitted`) | 0.003 |
+| Email Found (`email-found`) | 0.02 |
 
 ## Also available
 
