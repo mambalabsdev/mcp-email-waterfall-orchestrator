@@ -4,6 +4,8 @@
 [![MCP](https://img.shields.io/badge/MCP-server-blue)](https://modelcontextprotocol.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
+<a href="https://mcprush.com/to/email-waterfall-orchestrator-mcp?ref=badge"><img width="380" height="200" src="https://mcprush.com/badge/email-waterfall-orchestrator-mcp/card.svg" alt="Email Waterfall Orchestrator MCP server" /></a>
+
 MCP server for the Mamba Labs [Work Email Waterfall](https://apify.com/mambalabs/email-waterfall-orchestrator) actor on Apify.
 
 Give it contacts and your own provider API keys. It finds a work email for each, verifies it, and tells you exactly what each provider cost you.
