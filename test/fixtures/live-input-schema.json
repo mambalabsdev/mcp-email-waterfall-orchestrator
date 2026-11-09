@@ -21,7 +21,7 @@
     "providerKeys": {
       "title": "Your provider API keys",
       "type": "object",
-      "description": "Your own keys, by provider name: findymail, prospeo, icypeas, reoon, bounceban. Every key is validated for free before any paid call, and a provider with no usable key is dropped from the chain and reported rather than failing the run. With no keys at all the actor completes, explains what was unavailable and charges nothing.",
+      "description": "Your own keys, by provider name: findymail, prospeo, icypeas, bounceban. Every key is validated for free before any paid call, and a provider with no usable key is dropped from the chain and reported rather than failing the run. With no keys at all the actor completes, explains what was unavailable and charges nothing.",
       "editor": "json",
       "isSecret": true
     },
@@ -36,7 +36,7 @@
     "verificationOrder": {
       "title": "Verification order",
       "type": "array",
-      "description": "Verifier entry ids in order. Default is reoon.verify_email#email then bounceban.verify_email#email. Verification runs after EACH finder that returns an address, not once at the end, because providers do not agree on what found means.",
+      "description": "Verifier entry ids in order. Default is bounceban.verify_email#email. Verification runs after EACH finder that returns an address, not once at the end, because providers do not agree on what found means.",
       "editor": "stringList",
       "prefill": [],
       "default": []
